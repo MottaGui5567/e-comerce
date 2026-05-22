@@ -78,5 +78,7 @@ function Home() {
 
 - git commit --amend --> consegue editar o seu commit 
 
+- git push para mandar para a branch (github) nao estando mais apenas local 
+
 
 ```
