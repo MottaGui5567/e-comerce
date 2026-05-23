@@ -1,84 +1,99 @@
-# Obijetivos
+# Objetivos
 
-o principal obijetivo desse "e-comerce" é apenas para fins academicos, para buscar tornar-me um programador melhor com o principal obijetivo de entender mais e conseguir me tornar um programador full-stack, tanto para estagiar e fazer frelance em busca de uma condicao de vida melhor.
+O principal objetivo desse "e-commerce" é apenas para fins acadêmicos, para buscar tornar-me um programador melhor com o principal objetivo de entender mais e conseguir me tornar um programador full-stack, tanto para estagiar e fazer freelance em busca de uma condição de vida melhor.
 
+---
 
-## e-comerce
-e-comerce com a finalidade para treinar e colocar implementações afim de estudos.
+## E-commerce
 
-## instalação
-- npm install react
-- npm install next
-- npm install react-dom
+E-commerce com a finalidade de treinar e colocar implementações a fim de estudos.
 
-- para utilizar verções expecificas  colo um " @ " ex: npm install react-dom@18.3.1
+---
 
-## oberservações
+## Instalação
 
-- .nvmrc --> para definir verção parão e recomendada do node no caso a lts/hydrogen
-- a sigla RC ao final é abreviação para run commands 
-- untilizar o npm init para criar um arquivo (package.json), o mesmo lsita as dependencias do projeto, Ex: next versão 1.0.0 react versão 2.1.4
-
-- instalat o next (npm install next OU npm next@versão)
-
-## protocolos da internet (tipos)
-
-- http  --> hypertext transfer protocol (Protocolo de transferencias de hypertextos)
-
-- ftp   --> file transfer protocol (é um protocolo dedicado a transferencia de arquivos.)
-
-- smtp  --> simple mail transfer protocol (utilizado principalmente para enviar e receber email)
-
-## gitignore
-O arquivo ".gitignore" é criado com o intuido de nao "travar" o commit sendo assim qunado for commitar, nao subir o .next ou node /node_modules para o git, pois os mesmos são baixados automaticamente quando incializamos o proveto e utilizavos o  
-- NPM I ou NPM INSTALL 
-
-no qual o coamndo ja baixa as devidas dependencias do projeto 
-
-## criar uma pagina/ tela
-para a crição de uma tela damos inico no projeto como " NomeProjeto.js " e declaramos da seguinte forma 
-
+```bash
+npm install react
+npm install next
+npm install react-dom
 ```
+
+> Para utilizar versões específicas, coloque um `@` após o nome do pacote.  
+> Exemplo: `npm install react-dom@18.3.1`
+
+---
+
+## Observações
+
+- `.nvmrc` → para definir a versão padrão e recomendada do Node, no caso a `lts/hydrogen`
+- A sigla **RC** ao final é abreviação para *run commands*
+- Utilizar o `npm init` para criar um arquivo `package.json`, o mesmo lista as dependências do projeto. Ex: next versão 1.0.0, react versão 2.1.4
+- Instalar o Next: `npm install next` ou `npm install next@versão`
+
+---
+
+## Protocolos da Internet
+
+| Sigla | Nome Completo | Descrição |
+|-------|--------------|-----------|
+| **HTTP** | HyperText Transfer Protocol | Protocolo de transferência de hipertextos |
+| **FTP** | File Transfer Protocol | Protocolo dedicado à transferência de arquivos |
+| **SMTP** | Simple Mail Transfer Protocol | Utilizado principalmente para enviar e receber e-mails |
+
+---
+
+## .gitignore
+
+O arquivo `.gitignore` é criado com o intuito de não "travar" o commit. Sendo assim, quando for commitar, não serão enviados o `.next` ou `node_modules` para o Git, pois os mesmos são baixados automaticamente quando inicializamos o projeto e utilizamos:
+
+```bash
+npm i
+# ou
+npm install
+```
+
+O comando já baixa as devidas dependências do projeto.
+
+---
+
+## Criar uma Página / Tela
+
+Para a criação de uma tela, iniciamos o projeto com um arquivo `NomeProjeto.js` e declaramos da seguinte forma:
+
+```js
 function Home() {
-    return 
-    <h1> INICIO DA FUNDACAO </h1>
+    return (
+        <h1>INICIO DA FUNDACAO</h1>
+    );
 }
 
- export default Home;
-```
-- return: basicamente tudo que vai detro dele é o conteudo da paguina seja o front ou back, mas no exemplo forma basica apenas do front. 
-
-
-## comandos Git
-
-### listagem
+export default Home;
 ```
 
-- ls --> lsita os arquivos
+- `return`: basicamente tudo que vai dentro dele é o conteúdo da página, seja o front ou back. No exemplo acima, forma básica apenas do front.
 
-- ls -l --> lista os arquivos em formato de coluna 
+---
 
-- ls -la -- lista os arquivos em formato de coluna, porem mostra todos os arquivos até mesmo como pastas escondidas como a: . e a .git etc...
+## Comandos Git
 
------------------------------------------------------------------------------------------------------------------------------------------
+### Listagem
 
-- git log --> mostra todos os logs de commits do projeto.
+```bash
+ls              # lista os arquivos
+ls -l           # lista os arquivos em formato de coluna
+ls -la          # lista os arquivos em formato de coluna, incluindo arquivos ocultos como `.` e `.git`
 
-- git status --> mostra tudo que foi modificado ou adicionado em comparação com a ultima verção conhecida pelo git
-
-
+git log         # mostra todos os logs de commits do projeto
+git status      # mostra tudo que foi modificado ou adicionado em comparação com a última versão conhecida pelo Git
 ```
 
-### commit
+---
 
-``` 
-- git add .gitignore --> ira subir apenas o arquivo .gitignore 
+### Commit
 
-- git commit -m "show de bola seu primeiro commtit no repositorio " --> o -m é para a mensagem do commit 
-
-- git commit --amend --> consegue editar o seu commit 
-
-- git push para mandar para a branch (github) nao estando mais apenas local 
-
-
+```bash
+git add .gitignore                              # irá subir apenas o arquivo .gitignore
+git commit -m "mensagem do commit"              # o -m é para a mensagem do commit
+git commit --amend                              # permite editar o último commit
+git push                                        # envia para a branch (GitHub), não ficando mais apenas local
 ```
