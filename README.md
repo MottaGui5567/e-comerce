@@ -97,3 +97,9 @@ git commit -m "mensagem do commit"              # o -m é para a mensagem do com
 git commit --amend                              # permite editar o último commit
 git push                                        # envia para a branch (GitHub), não ficando mais apenas local
 ```
+
+---
+
+## EditorConfig
+
+o .editorconfig é um arquivo que serve para formatação como um padrão para o codigo ele pode ser criado dentro de uma pasta para apenas aqueles arquivos serem nessa padronização ou então na pasta raiz do projeto ( Recomendado ) para que o codigo todo tenha uma mesma identação e pradronização.
