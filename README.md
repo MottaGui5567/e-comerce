@@ -1,50 +1,51 @@
-# Objetivos
+# 🛒 Objetivos
 
-O principal objetivo desse "e-commerce" é apenas para fins acadêmicos, para buscar tornar-me um programador melhor com o principal objetivo de entender mais e conseguir me tornar um programador full-stack, tanto para estagiar e fazer freelance em busca de uma condição de vida melhor.
-
----
-
-## E-commerce
-
-E-commerce com a finalidade de treinar e colocar implementações a fim de estudos.
+Este projeto de e-commerce tem fins exclusivamente acadêmicos, com o objetivo de evoluir como programador e aprofundar os conhecimentos necessários para atuar como desenvolvedor full-stack — seja em estágios ou trabalhos freelance.
 
 ---
 
-## Instalação
+## 🛍️ E-commerce
+
+Projeto de e-commerce voltado para estudo e prática de implementações reais.
+
+---
+
+## 📦 Instalação
 
 ```bash
 npm install react
 npm install next
 npm install react-dom
+npm install prettier -D
 ```
 
-> Para utilizar versões específicas, coloque um `@` após o nome do pacote.  
+> Para instalar uma versão específica, use `@` após o nome do pacote.  
 > Exemplo: `npm install react-dom@18.3.1`
 
 ---
 
-## Observações
+## 📝 Observações
 
-- `.nvmrc` → para definir a versão padrão e recomendada do Node, no caso a `lts/hydrogen`
-- A sigla **RC** ao final é abreviação para *run commands*
-- Utilizar o `npm init` para criar um arquivo `package.json`, o mesmo lista as dependências do projeto. Ex: next versão 1.0.0, react versão 2.1.4
-- Instalar o Next: `npm install next` ou `npm install next@versão`
-
----
-
-## Protocolos da Internet
-
-| Sigla | Nome Completo | Descrição |
-|-------|--------------|-----------|
-| **HTTP** | HyperText Transfer Protocol | Protocolo de transferência de hipertextos |
-| **FTP** | File Transfer Protocol | Protocolo dedicado à transferência de arquivos |
-| **SMTP** | Simple Mail Transfer Protocol | Utilizado principalmente para enviar e receber e-mails |
+- `.nvmrc` → define a versão padrão do Node recomendada para o projeto, no caso `lts/hydrogen`
+- A sigla **RC** é abreviação de _run commands_
+- O comando `npm init` cria o arquivo `package.json`, que lista todas as dependências do projeto com suas respectivas versões
+- Para instalar o Next: `npm install next` ou `npm install next@versão`
 
 ---
 
-## .gitignore
+## 🌐 Protocolos da Internet
 
-O arquivo `.gitignore` é criado com o intuito de não "travar" o commit. Sendo assim, quando for commitar, não serão enviados o `.next` ou `node_modules` para o Git, pois os mesmos são baixados automaticamente quando inicializamos o projeto e utilizamos:
+| Sigla    | Nome Completo                 | Descrição                                      |
+| -------- | ----------------------------- | ---------------------------------------------- |
+| **HTTP** | HyperText Transfer Protocol   | Protocolo de transferência de hipertextos      |
+| **FTP**  | File Transfer Protocol        | Protocolo dedicado à transferência de arquivos |
+| **SMTP** | Simple Mail Transfer Protocol | Utilizado para envio e recebimento de e-mails  |
+
+---
+
+## 🚫 .gitignore
+
+O `.gitignore` impede que determinados arquivos sejam enviados ao Git no momento do commit. Pastas como `.next` e `node_modules` não precisam ser versionadas, pois são geradas automaticamente ao rodar:
 
 ```bash
 npm i
@@ -52,54 +53,70 @@ npm i
 npm install
 ```
 
-O comando já baixa as devidas dependências do projeto.
-
 ---
 
-## Criar uma Página / Tela
+## 🖥️ Criar uma Página / Tela
 
-Para a criação de uma tela, iniciamos o projeto com um arquivo `NomeProjeto.js` e declaramos da seguinte forma:
+As páginas são criadas como arquivos `.js` dentro da pasta `pages`. Exemplo básico:
 
 ```js
 function Home() {
-    return (
-        <h1>INICIO DA FUNDACAO</h1>
-    );
+  return <h1>INICIO DA FUNDACAO</h1>;
 }
 
 export default Home;
 ```
 
-- `return`: basicamente tudo que vai dentro dele é o conteúdo da página, seja o front ou back. No exemplo acima, forma básica apenas do front.
+- `return`: define o conteúdo que será renderizado na tela. No exemplo acima, apenas um elemento de front-end simples.
 
 ---
 
-## Comandos Git
+## 🔧 Comandos Git
 
-### Listagem
+### 📋 Listagem
 
 ```bash
-ls              # lista os arquivos
+ls              # lista os arquivos do diretório atual
 ls -l           # lista os arquivos em formato de coluna
-ls -la          # lista os arquivos em formato de coluna, incluindo arquivos ocultos como `.` e `.git`
+ls -la          # lista todos os arquivos, incluindo ocultos como `.git`
 
-git log         # mostra todos os logs de commits do projeto
-git status      # mostra tudo que foi modificado ou adicionado em comparação com a última versão conhecida pelo Git
+git log         # exibe o histórico de commits do projeto
+git status      # mostra os arquivos modificados ou adicionados desde o último commit
 ```
 
----
-
-### Commit
+### 💾 Commit
 
 ```bash
-git add .gitignore                              # irá subir apenas o arquivo .gitignore
-git commit -m "mensagem do commit"              # o -m é para a mensagem do commit
-git commit --amend                              # permite editar o último commit
-git push                                        # envia para a branch (GitHub), não ficando mais apenas local
+git add .gitignore                   # adiciona apenas o arquivo .gitignore ao stage
+git commit -m "mensagem do commit"   # cria um commit com a mensagem informada
+git commit --amend                   # edita o último commit
+git push                             # envia as alterações para o repositório remoto (GitHub)
 ```
 
 ---
 
-## EditorConfig
+## ⚙️ EditorConfig
 
-o .editorconfig é um arquivo que serve para formatação como um padrão para o codigo ele pode ser criado dentro de uma pasta para apenas aqueles arquivos serem nessa padronização ou então na pasta raiz do projeto ( Recomendado ) para que o codigo todo tenha uma mesma identação e pradronização.
+O `.editorconfig` define regras de formatação para o código, como indentação e quebras de linha. Pode ser criado em uma pasta específica ou, de preferência, na raiz do projeto, garantindo que todo o código siga o mesmo padrão independentemente do editor utilizado.
+
+---
+
+## ✨ Prettier
+
+**Instalação:**
+
+```bash
+npm install prettier -D  # instala como dependência de desenvolvimento
+```
+
+O Prettier analisa os arquivos do projeto e aplica formatação automaticamente com base nas regras configuradas. Ele atua de forma complementar ao EditorConfig, cobrindo a padronização do estilo do código.
+
+Para facilitar o uso, adicione os scripts abaixo no `package.json`, na mesma seção do `npm run dev`:
+
+```json
+"lint:check": "prettier --check .",
+"lint:fix": "prettier --write ."
+```
+
+- `lint:check` → verifica se há arquivos fora do padrão
+- `lint:fix` → corrige automaticamente os arquivos fora do padrão
