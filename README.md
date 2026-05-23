@@ -150,3 +150,13 @@ Após instalar a extensão, é necessário defini-la como o formatador padrão d
 - `editor.defaultFormatter` → define o Prettier como formatador padrão
 - `editor.formatOnSave` → desativa a formatação automática ao salvar (o Prettier deve ser rodado manualmente via `npm run lint:fix`)
 - `files.autoSave` → desativa o salvamento automático, evitando que o arquivo seja salvo antes de você terminar de escrever
+
+---
+
+### 🚫 .prettierignore
+
+O `.prettierignore` funciona de forma semelhante ao `.gitignore`: lista os arquivos e pastas que o Prettier deve ignorar ao verificar ou formatar o código. Para este projeto, basta ignorar a pasta `.next`, que é gerada automaticamente pelo Next.js e não deve ser formatada:
+
+```
+.next
+```
