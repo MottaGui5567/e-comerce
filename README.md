@@ -155,7 +155,16 @@ Após instalar a extensão, é necessário defini-la como o formatador padrão d
 
 ### 🚫 .prettierignore
 
-O `.prettierignore` funciona de forma semelhante ao `.gitignore`: lista os arquivos e pastas que o Prettier deve ignorar ao verificar ou formatar o código. Para este projeto, basta ignorar a pasta `.next`, que é gerada automaticamente pelo Next.js e não deve ser formatada:
+O `.prettierignore` funciona de forma semelhante ao `.gitignore`: lista os arquivos e pastas que o Prettier deve ignorar ao verificar ou formatar o código.
+
+> **Atenção:** algumas pastas já são ignoradas pelo Prettier por padrão, sem precisar declará-las no arquivo:
+>
+> - `node_modules`
+> - `.git`
+> - `dist`
+> - `build`
+
+Para este projeto, além dessas, basta adicionar a pasta `.next`, que é gerada automaticamente pelo Next.js:
 
 ```
 .next
