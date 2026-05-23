@@ -16,7 +16,6 @@ Projeto de e-commerce voltado para estudo e prática de implementações reais.
 npm install react
 npm install next
 npm install react-dom
-npm install prettier -D
 ```
 
 > Para instalar uma versão específica, use `@` após o nome do pacote.  
@@ -120,3 +119,34 @@ Para facilitar o uso, adicione os scripts abaixo no `package.json`, na mesma se�
 
 - `lint:check` → verifica se há arquivos fora do padrão
 - `lint:fix` → corrige automaticamente os arquivos fora do padrão
+
+---
+
+### 🧩 Extensão no VSCode
+
+Para que o Prettier funcione integrado ao VSCode, é necessário instalar a extensão oficial:
+
+1. Abra o VSCode e vá em **Extensions** (`Ctrl + Shift + X`)
+2. Pesquise por **Prettier - Code formatter**
+3. Instale a extensão publicada por _Prettier_
+
+---
+
+### ⚙️ Configurando o Prettier como formatador padrão
+
+Após instalar a extensão, é necessário defini-la como o formatador padrão do editor:
+
+1. Abra as configurações do VSCode (`Ctrl + Shift + P`) e busque por **Open User Settings (JSON)**
+2. Adicione ou ajuste as seguintes linhas:
+
+```json
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": false,
+  "files.autoSave": "off"
+}
+```
+
+- `editor.defaultFormatter` → define o Prettier como formatador padrão
+- `editor.formatOnSave` → desativa a formatação automática ao salvar (o Prettier deve ser rodado manualmente via `npm run lint:fix`)
+- `files.autoSave` → desativa o salvamento automático, evitando que o arquivo seja salvo antes de você terminar de escrever
