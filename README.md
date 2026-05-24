@@ -94,6 +94,70 @@ git push                             # envia as alterações para o repositório
 
 ---
 
+## 🧪 Testes Automatizados
+
+Testes automatizados garantem que o código funciona conforme o esperado e evitam que novas alterações quebrem funcionalidades já existentes.
+
+### Instalação
+
+```bash
+npm install jest --save-dev
+```
+
+Para projetos com React, instale também o ambiente de simulação do DOM:
+
+```bash
+npm install jest-environment-jsdom --save-dev
+```
+
+---
+
+### Configuração
+
+Adicione o script de teste no `package.json`:
+
+```json
+"scripts": {
+  "test": "jest",
+  "test:watch": "jest --watchAll"
+}
+```
+
+- `test` → roda todos os testes uma única vez
+- `test:watch` → fica observando alterações e roda os testes automaticamente a cada save
+
+---
+
+### Criando um Teste
+
+Os arquivos de teste devem ter a extensão `.test.js` ou `.spec.js`. Exemplo básico:
+
+```js
+function soma(a, b) {
+  return a + b;
+}
+
+test("deve retornar a soma de dois números", () => {
+  expect(soma(2, 3)).toBe(5);
+});
+```
+
+- `test()` → define um caso de teste com uma descrição e uma função
+- `expect()` → define o valor a ser verificado
+- `toBe()` → verifica se o valor é exatamente o esperado
+
+---
+
+### Comandos
+
+```bash
+npm test              # roda todos os testes do projeto
+npm run test:watch    # roda os testes em modo observador
+npx jest NomeDoArquivo   # roda apenas um arquivo de teste específico
+```
+
+---
+
 ## ⚙️ EditorConfig
 
 O `.editorconfig` define regras de formatação para o código, como indentação e quebras de linha. Pode ser criado em uma pasta específica ou, de preferência, na raiz do projeto, garantindo que todo o código siga o mesmo padrão independentemente do editor utilizado.
