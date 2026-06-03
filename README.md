@@ -233,3 +233,74 @@ Para este projeto, além dessas, basta adicionar a pasta `.next`, que é gerada 
 ```
 .next
 ```
+
+---
+
+## 📁 Arquitetura de Pastas
+
+O projeto segue o padrão **MVC (Model-View-Controller)**, separando responsabilidades em camadas bem definidas:
+
+```
+📦 root
+ ┣ 📂 pages         → View: telas e rotas da aplicação (Next.js usa essa pasta para criar as rotas automaticamente)
+ ┃ ┗ 📜 index.js
+ ┣ 📂 models        → Model: regras de negócio e estrutura dos dados
+ ┃ ┣ 📜 user.js
+ ┃ ┣ 📜 content.js
+ ┃ ┗ 📜 password.js
+ ┣ 📂 infra         → infraestrutura da aplicação: banco de dados, migrações e ambientes
+ ┃ ┣ 📜 database.js
+ ┃ ┣ 📂 migrations      → versionamento e alterações na estrutura do banco de dados
+ ┃ ┗ 📂 provisioning    → configurações de ambiente
+ ┃   ┣ 📂 staging        → ambiente de homologação (testes antes de ir para produção)
+ ┃   ┗ 📂 production     → ambiente de produção
+ ┗ 📂 tests         → testes automatizados da aplicação
+```
+
+### Responsabilidades
+
+- **pages** → camada de visualização (View). No Next.js, cada arquivo dentro dessa pasta vira automaticamente uma rota
+- **models** → camada de dados (Model). Define a estrutura e as regras de negócio de cada entidade, como usuário, conteúdo e senha
+- **infra** → camada de infraestrutura. Centraliza a conexão com o banco de dados, migrações e configurações por ambiente
+- **tests** → concentra todos os testes automatizados do projeto, mantendo-os separados do código de produção
+
+> No Next.js a camada de **Controller** fica dentro da própria pasta `pages/api`, onde cada arquivo representa um endpoint da API.
+
+---
+
+## 🔌 API
+
+No Next.js, a API é criada dentro da pasta `pages/api`. Cada arquivo dentro dessa pasta vira automaticamente um endpoint acessível via HTTP, sem precisar configurar rotas manualmente.
+
+### Como funciona
+
+Cada arquivo exporta uma função que recebe dois parâmetros:
+
+- `request` → contém os dados da requisição (método, body, headers, etc.)
+- `response` → usado para enviar a resposta ao cliente
+
+### Exemplo
+
+O arquivo `pages/api/status.js` cria automaticamente o endpoint `/api/status`:
+
+```js
+function status(request, response) {
+  response.status(200).json({ cahve: "ola" });
+}
+
+export default status;
+```
+
+- `response.status(200)` → define o código HTTP da resposta (`200` significa sucesso)
+- `.json({...})` → envia os dados no formato JSON para o cliente
+
+### Códigos HTTP mais comuns
+
+| Código | Significado                                 |
+| ------ | ------------------------------------------- |
+| `200`  | OK — requisição bem-sucedida                |
+| `201`  | Created — recurso criado com sucesso        |
+| `400`  | Bad Request — dados inválidos na requisição |
+| `401`  | Unauthorized — não autenticado              |
+| `404`  | Not Found — recurso não encontrado          |
+| `500`  | Internal Server Error — erro no servidor    |
