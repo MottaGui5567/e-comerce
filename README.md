@@ -1,136 +1,182 @@
-# 🛒 Objetivos
+<div align="center">
+
+# 🛒 E-Commerce — Projeto de Estudos
+
+**Projeto acadêmico para evolução como desenvolvedor full-stack**
+
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Jest](https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white)
+
+</div>
+
+---
+
+## 🎯 Objetivos
 
 Este projeto de e-commerce tem fins exclusivamente acadêmicos, com o objetivo de evoluir como programador e aprofundar os conhecimentos necessários para atuar como desenvolvedor full-stack — seja em estágios ou trabalhos freelance.
 
 ---
 
-## 🛍️ E-commerce
+## 📋 Índice
 
-Projeto de e-commerce voltado para estudo e prática de implementações reais.
+- [Instalação](#-instalação)
+- [Arquitetura de Pastas](#-arquitetura-de-pastas)
+- [API](#-api)
+- [Testes Automatizados](#-testes-automatizados)
+- [Ferramentas de Qualidade](#-ferramentas-de-qualidade)
+- [Comandos Git](#-comandos-git)
+- [Observações](#-observações)
 
 ---
 
 ## 📦 Instalação
 
+### Dependências principais
+
+São os pacotes necessários para a aplicação funcionar em produção:
+
 ```bash
 npm install react
-npm install next
 npm install react-dom
+npm install next
 ```
 
-> Para instalar uma versão específica, use `@` após o nome do pacote.  
+| Pacote      | O que faz                                              |
+| ----------- | ------------------------------------------------------ |
+| `react`     | Biblioteca principal para construção de interfaces     |
+| `react-dom` | Responsável por renderizar o React no navegador        |
+| `next`      | Framework que gerencia rotas, API e build da aplicação |
+
+### Dependências de desenvolvimento
+
+São os pacotes usados apenas durante o desenvolvimento — não vão para produção:
+
+```bash
+npm install jest -D
+npm install jest-environment-jsdom -D
+npm install prettier -D
+npm install tailwindcss -D
+```
+
+| Pacote                   | O que faz                                       |
+| ------------------------ | ----------------------------------------------- |
+| `jest`                   | Framework de testes automatizados               |
+| `jest-environment-jsdom` | Simula o DOM do navegador para testes com React |
+| `prettier`               | Formatação automática do código                 |
+| `tailwindcss`            | Framework de CSS utilitário para estilização    |
+
+| Pacote                   | O que faz                                       |
+| ------------------------ | ----------------------------------------------- |
+| `jest`                   | Framework de testes automatizados               |
+| `jest-environment-jsdom` | Simula o DOM do navegador para testes com React |
+| `prettier`               | Formatação automática do código                 |
+| `tailwindcss`            | Framework de CSS utilitário para estilização    |
+
+> 💡 Para instalar uma versão específica, use `@` após o nome do pacote.
 > Exemplo: `npm install react-dom@18.3.1`
 
----
-
-## 📝 Observações
-
-- `.nvmrc` → define a versão padrão do Node recomendada para o projeto, no caso `lts/hydrogen`
-- A sigla **RC** é abreviação de _run commands_
-- O comando `npm init` cria o arquivo `package.json`, que lista todas as dependências do projeto com suas respectivas versões
-- Para instalar o Next: `npm install next` ou `npm install next@versão`
+> 💡 O `-D` e o `--save-dev` fazem a mesma coisa: instalam o pacote como dependência de desenvolvimento.
 
 ---
 
-## 🌐 Protocolos da Internet
+## 📁 Arquitetura de Pastas
 
-| Sigla    | Nome Completo                 | Descrição                                      |
-| -------- | ----------------------------- | ---------------------------------------------- |
-| **HTTP** | HyperText Transfer Protocol   | Protocolo de transferência de hipertextos      |
-| **FTP**  | File Transfer Protocol        | Protocolo dedicado à transferência de arquivos |
-| **SMTP** | Simple Mail Transfer Protocol | Utilizado para envio e recebimento de e-mails  |
+O projeto segue o padrão **MVC (Model-View-Controller)**, separando responsabilidades em camadas bem definidas:
 
----
-
-## 🚫 .gitignore
-
-O `.gitignore` impede que determinados arquivos sejam enviados ao Git no momento do commit. Pastas como `.next` e `node_modules` não precisam ser versionadas, pois são geradas automaticamente ao rodar:
-
-```bash
-npm i
-# ou
-npm install
+```
+📦 root
+ ┣ 📂 pages         → View: telas e rotas da aplicação
+ ┃ ┣ 📂 api/v1      → Controller: endpoints da API
+ ┃ ┗ 📜 index.js
+ ┣ 📂 models        → Model: regras de negócio e estrutura dos dados
+ ┃ ┣ 📜 user.js
+ ┃ ┣ 📜 content.js
+ ┃ ┗ 📜 password.js
+ ┣ 📂 infra         → Infraestrutura: banco de dados, migrações e ambientes
+ ┃ ┣ 📜 database.js
+ ┃ ┣ 📂 migrations
+ ┃ ┗ 📂 provisioning
+ ┃   ┣ 📂 staging
+ ┃   ┗ 📂 production
+ ┗ 📂 tests
+   ┣ 📂 integration  → testes de ponta a ponta (ex: chamadas à API)
+   ┗ 📂 unit         → testes isolados (ex: funções e lógicas)
 ```
 
+| Camada         | Pasta        | Responsabilidade                                                     |
+| -------------- | ------------ | -------------------------------------------------------------------- |
+| **View**       | `pages/`     | Telas e rotas. No Next.js cada arquivo vira uma rota automaticamente |
+| **Controller** | `pages/api/` | Endpoints da API. Recebe requisições e devolve respostas             |
+| **Model**      | `models/`    | Regras de negócio e estrutura de dados de cada entidade              |
+| **Infra**      | `infra/`     | Conexão com banco, migrações e configurações por ambiente            |
+
 ---
 
-## 🖥️ Criar uma Página / Tela
+## 🔌 API
 
-As páginas são criadas como arquivos `.js` dentro da pasta `pages`. Exemplo básico:
+Uma API funciona como um garçom em um restaurante: o cliente (navegador ou app) faz um pedido (`request`), o garçom leva até a cozinha (servidor), e traz de volta a resposta (`response`).
+
+No Next.js, basta criar um arquivo dentro de `pages/api` para que ele vire um endpoint automaticamente — sem configuração de rotas.
+
+```
+pages/api/v1/status/index.js  →  disponível em  /api/v1/status
+```
+
+### Exemplo
 
 ```js
-function Home() {
-  return <h1>INICIO DA FUNDACAO</h1>;
+function status(request, response) {
+  response.status(200).json({ chave: "ola" });
 }
 
-export default Home;
+export default status;
 ```
 
-- `return`: define o conteúdo que será renderizado na tela. No exemplo acima, apenas um elemento de front-end simples.
+| Parte                  | O que faz                                                     |
+| ---------------------- | ------------------------------------------------------------- |
+| `request`              | Contém tudo que veio do cliente: método, dados, headers, etc. |
+| `response`             | A resposta que você devolve para quem fez o pedido            |
+| `response.status(200)` | Define o código HTTP da resposta                              |
+| `.json({ ... })`       | Envia os dados no formato JSON                                |
 
----
+### Códigos HTTP mais comuns
 
-## 🔧 Comandos Git
+> Quanto maior o número, mais grave o problema.
 
-### 📋 Listagem
-
-```bash
-ls              # lista os arquivos do diretório atual
-ls -l           # lista os arquivos em formato de coluna
-ls -la          # lista todos os arquivos, incluindo ocultos como `.git`
-
-git log         # exibe o histórico de commits do projeto
-git status      # mostra os arquivos modificados ou adicionados desde o último commit
-```
-
-### 💾 Commit
-
-```bash
-git add .gitignore                   # adiciona apenas o arquivo .gitignore ao stage
-git commit -m "mensagem do commit"   # cria um commit com a mensagem informada
-git commit --amend                   # edita o último commit
-git push                             # envia as alterações para o repositório remoto (GitHub)
-```
+| Código | Significado           | Quando ocorre                                    |
+| ------ | --------------------- | ------------------------------------------------ |
+| `200`  | OK                    | Requisição bem-sucedida                          |
+| `201`  | Created               | Algo foi criado com sucesso (ex: novo usuário)   |
+| `400`  | Bad Request           | O cliente mandou dados inválidos ou incompletos  |
+| `401`  | Unauthorized          | O usuário não está autenticado (não está logado) |
+| `404`  | Not Found             | O recurso solicitado não existe                  |
+| `500`  | Internal Server Error | Erro no servidor — problema no back-end          |
 
 ---
 
 ## 🧪 Testes Automatizados
 
-Testes automatizados garantem que o código funciona conforme o esperado e evitam que novas alterações quebrem funcionalidades já existentes. Existem dois tipos principais utilizados neste projeto:
+Testes automatizados garantem que o código funciona conforme o esperado e evitam que novas alterações quebrem funcionalidades já existentes.
 
-- **Teste unitário** → testa uma função ou lógica isolada, sem depender de serviços externos
-- **Teste de integração** → testa o fluxo completo de uma funcionalidade, como uma requisição real à API
-
-A estrutura de pastas reflete essa separação:
-
-```
-📂 test
- ┣ 📂 integration      → testes de integração (ex: chamadas à API)
- ┃ ┗ 📂 api/v1/status
- ┃   ┗ 📜 get.test.js
- ┗ 📂 unit             → testes unitários (ex: funções isoladas)
-   ┗ 📜 calculadora.test.js
-```
-
----
+| Tipo           | O que testa                                                         | Exemplo               |
+| -------------- | ------------------------------------------------------------------- | --------------------- |
+| **Unitário**   | Uma função isolada, sem dependências externas                       | `calculadora.test.js` |
+| **Integração** | O fluxo completo de uma funcionalidade, como uma chamada real à API | `get.test.js`         |
 
 ### Instalação
 
 ```bash
 npm install jest --save-dev
-```
 
-Para projetos com React, instale também o ambiente de simulação do DOM:
-
-```bash
+# Para projetos com React, instale também:
 npm install jest-environment-jsdom --save-dev
 ```
 
----
-
 ### Configuração
 
-Adicione o script de teste no `package.json`:
+Adicione os scripts no `package.json`:
 
 ```json
 "scripts": {
@@ -139,14 +185,14 @@ Adicione o script de teste no `package.json`:
 }
 ```
 
-- `test` → roda todos os testes uma única vez
-- `test:watch` → fica observando alterações e roda os testes automaticamente a cada save
-
----
+| Script       | O que faz                                                       |
+| ------------ | --------------------------------------------------------------- |
+| `test`       | Roda todos os testes uma única vez                              |
+| `test:watch` | Observa alterações e roda os testes automaticamente a cada save |
 
 ### Teste Unitário
 
-Testa uma função de forma isolada, sem depender de banco de dados, API ou qualquer serviço externo. Os arquivos devem ter a extensão `.test.js` ou `.spec.js`:
+Testa uma função de forma isolada, sem banco de dados, API ou qualquer serviço externo:
 
 ```js
 function soma(a, b) {
@@ -158,15 +204,15 @@ test("deve retornar a soma de dois números", () => {
 });
 ```
 
-- `test()` → define um caso de teste com uma descrição e uma função
-- `expect()` → define o valor a ser verificado
-- `toBe()` → verifica se o valor é exatamente o esperado
-
----
+| Função     | O que faz                                      |
+| ---------- | ---------------------------------------------- |
+| `test()`   | Define um caso de teste com descrição e função |
+| `expect()` | Define o valor a ser verificado                |
+| `toBe()`   | Verifica se o valor é exatamente o esperado    |
 
 ### Teste de Integração
 
-Testa o fluxo completo de uma funcionalidade — no exemplo abaixo, uma requisição real ao endpoint `/api/v1/status` verificando se ele retorna o código `200`:
+Testa o fluxo completo — no exemplo abaixo, uma requisição real ao endpoint `/api/v1/status`:
 
 ```js
 test("GET /api/v1/status deve retornar 200", async () => {
@@ -175,21 +221,17 @@ test("GET /api/v1/status deve retornar 200", async () => {
 });
 ```
 
-- `fetch()` → faz a chamada HTTP ao endpoint
-- `async/await` → necessário pois a requisição à API é assíncrona (leva um tempo para responder)
-- `response.status` → captura o código HTTP retornado pela API
+> ⚠️ **Atenção:** o servidor precisa estar rodando (`npm run dev`) antes de executar testes de integração.
 
 #### Entendendo o async/await
 
-O JavaScript por padrão não espera — ele continua executando o resto do código enquanto uma tarefa demorada acontece em segundo plano. Isso é o comportamento **assíncrono**.
+O JavaScript por padrão não espera — ele continua executando o resto do código enquanto uma tarefa demorada acontece em segundo plano. Sem o `await`, o código tentaria ler `response.status` antes da resposta chegar, causando erro.
 
-O problema é que às vezes você **precisa** esperar. Se o código tentasse ler `response.status` antes da resposta da API chegar, o resultado seria um erro — como tentar comer a pizza antes do entregador bater na porta.
-
-As três peças que resolvem isso:
-
-- **`fetch()`** → é o entregador. Sai para buscar a resposta da API, o que leva um tempo
-- **`await`** → pausa aquela linha e só segue para a próxima quando o `fetch` terminar e a resposta chegar
-- **`async`** → regra do JavaScript: toda função que usa `await` obrigatoriamente precisa ter `async` na frente, avisando que ela pode ter esperas dentro
+| Peça      | O que faz                                          |
+| --------- | -------------------------------------------------- |
+| `fetch()` | Sai para buscar a resposta da API — leva um tempo  |
+| `await`   | Pausa a linha e só segue quando o `fetch` terminar |
+| `async`   | Obrigatório em toda função que usa `await`         |
 
 ```js
 // ❌ sem async/await — não espera, vai dar erro
@@ -205,66 +247,55 @@ test("teste", async () => {
 });
 ```
 
-> **Resumindo:** `async` avisa que a função tem esperas, e `await` é a espera em si.
-
-> **Atenção:** para rodar testes de integração, o servidor precisa estar rodando (`npm run dev`) antes de executar o teste.
-
----
+> 💡 **Resumindo:** `async` avisa que a função tem esperas, e `await` é a espera em si.
 
 ### Comandos
 
 ```bash
-npm test                       # roda todos os testes do projeto
-npm run test:watch             # roda os testes em modo observador
-npx jest NomeDoArquivo         # roda apenas um arquivo de teste específico
+npm test                        # roda todos os testes do projeto
+npm run test:watch              # roda em modo observador
+npx jest NomeDoArquivo          # roda apenas um arquivo específico
 ```
 
 ---
 
-## ⚙️ EditorConfig
+## 🛠️ Ferramentas de Qualidade
 
-O `.editorconfig` define regras de formatação para o código, como indentação e quebras de linha. Pode ser criado em uma pasta específica ou, de preferência, na raiz do projeto, garantindo que todo o código siga o mesmo padrão independentemente do editor utilizado.
+### ⚙️ EditorConfig
+
+O `.editorconfig` define regras de formatação para o código, como indentação e quebras de linha. Criado na raiz do projeto, garante que todo o código siga o mesmo padrão independentemente do editor utilizado.
 
 ---
 
-## ✨ Prettier
+### ✨ Prettier
+
+O Prettier aplica formatação automática com base nas regras configuradas, atuando de forma complementar ao EditorConfig.
 
 **Instalação:**
 
 ```bash
-npm install prettier -D  # instala como dependência de desenvolvimento
+npm install prettier -D
 ```
 
-O Prettier analisa os arquivos do projeto e aplica formatação automaticamente com base nas regras configuradas. Ele atua de forma complementar ao EditorConfig, cobrindo a padronização do estilo do código.
-
-Para facilitar o uso, adicione os scripts abaixo no `package.json`, na mesma seção do `npm run dev`:
+**Scripts no `package.json`:**
 
 ```json
 "lint:check": "prettier --check .",
-"lint:fix": "prettier --write ."
+"lint:fix":   "prettier --write ."
 ```
 
-- `lint:check` → verifica se há arquivos fora do padrão
-- `lint:fix` → corrige automaticamente os arquivos fora do padrão
+| Script       | O que faz                                          |
+| ------------ | -------------------------------------------------- |
+| `lint:check` | Verifica quais arquivos estão fora do padrão       |
+| `lint:fix`   | Corrige automaticamente os arquivos fora do padrão |
 
----
+**Extensão no VSCode:**
 
-### 🧩 Extensão no VSCode
-
-Para que o Prettier funcione integrado ao VSCode, é necessário instalar a extensão oficial:
-
-1. Abra o VSCode e vá em **Extensions** (`Ctrl + Shift + X`)
+1. Abra **Extensions** (`Ctrl + Shift + X`)
 2. Pesquise por **Prettier - Code formatter**
 3. Instale a extensão publicada por _Prettier_
 
----
-
-### ⚙️ Configurando o Prettier como formatador padrão
-
-Após instalar a extensão, é necessário defini-la como o formatador padrão do editor:
-
-1. Abra as configurações do VSCode (`Ctrl + Shift + P`) e busque por **Open User Settings (JSON)**
-2. Adicione ou ajuste as seguintes linhas:
+**Configuração como formatador padrão** — abra **Open User Settings (JSON)** (`Ctrl + Shift + P`) e adicione:
 
 ```json
 {
@@ -274,24 +305,19 @@ Após instalar a extensão, é necessário defini-la como o formatador padrão d
 }
 ```
 
-- `editor.defaultFormatter` → define o Prettier como formatador padrão
-- `editor.formatOnSave` → desativa a formatação automática ao salvar (o Prettier deve ser rodado manualmente via `npm run lint:fix`)
-- `files.autoSave` → desativa o salvamento automático, evitando que o arquivo seja salvo antes de você terminar de escrever
+| Configuração              | O que faz                                |
+| ------------------------- | ---------------------------------------- |
+| `editor.defaultFormatter` | Define o Prettier como formatador padrão |
+| `editor.formatOnSave`     | Desativa formatação automática ao salvar |
+| `files.autoSave`          | Desativa salvamento automático           |
 
----
+**`.prettierignore`:**
 
-### 🚫 .prettierignore
+O `.prettierignore` lista o que o Prettier deve ignorar. Algumas pastas já são ignoradas por padrão:
 
-O `.prettierignore` funciona de forma semelhante ao `.gitignore`: lista os arquivos e pastas que o Prettier deve ignorar ao verificar ou formatar o código.
+> `node_modules` · `.git` · `dist` · `build`
 
-> **Atenção:** algumas pastas já são ignoradas pelo Prettier por padrão, sem precisar declará-las no arquivo:
->
-> - `node_modules`
-> - `.git`
-> - `dist`
-> - `build`
-
-Para este projeto, além dessas, basta adicionar a pasta `.next`, que é gerada automaticamente pelo Next.js:
+Para este projeto, adicione apenas:
 
 ```
 .next
@@ -299,73 +325,59 @@ Para este projeto, além dessas, basta adicionar a pasta `.next`, que é gerada 
 
 ---
 
-## 📁 Arquitetura de Pastas
+## 🔧 Comandos Git
 
-O projeto segue o padrão **MVC (Model-View-Controller)**, separando responsabilidades em camadas bem definidas:
+### 📋 Listagem
 
-```
-📦 root
- ┣ 📂 pages         → View: telas e rotas da aplicação (Next.js usa essa pasta para criar as rotas automaticamente)
- ┃ ┗ 📜 index.js
- ┣ 📂 models        → Model: regras de negócio e estrutura dos dados
- ┃ ┣ 📜 user.js
- ┃ ┣ 📜 content.js
- ┃ ┗ 📜 password.js
- ┣ 📂 infra         → infraestrutura da aplicação: banco de dados, migrações e ambientes
- ┃ ┣ 📜 database.js
- ┃ ┣ 📂 migrations      → versionamento e alterações na estrutura do banco de dados
- ┃ ┗ 📂 provisioning    → configurações de ambiente
- ┃   ┣ 📂 staging        → ambiente de homologação (testes antes de ir para produção)
- ┃   ┗ 📂 production     → ambiente de produção
- ┗ 📂 tests         → testes automatizados da aplicação
+```bash
+ls              # lista os arquivos do diretório atual
+ls -l           # lista em formato de coluna
+ls -la          # lista tudo, incluindo arquivos ocultos como `.git`
+
+git log         # exibe o histórico de commits
+git status      # mostra arquivos modificados desde o último commit
 ```
 
-### Responsabilidades
+### 💾 Commit
 
-- **pages** → camada de visualização (View). No Next.js, cada arquivo dentro dessa pasta vira automaticamente uma rota
-- **models** → camada de dados (Model). Define a estrutura e as regras de negócio de cada entidade, como usuário, conteúdo e senha
-- **infra** → camada de infraestrutura. Centraliza a conexão com o banco de dados, migrações e configurações por ambiente
-- **tests** → concentra todos os testes automatizados do projeto, mantendo-os separados do código de produção
-
-> No Next.js a camada de **Controller** fica dentro da própria pasta `pages/api`, onde cada arquivo representa um endpoint da API.
+```bash
+git add .gitignore                   # adiciona um arquivo específico ao stage
+git commit -m "mensagem do commit"   # cria um commit com a mensagem informada
+git commit --amend                   # edita o último commit
+git push                             # envia as alterações para o repositório remoto
+```
 
 ---
 
-## 🔌 API
+## 📝 Observações
 
-Uma API funciona como um garçom em um restaurante: o cliente (navegador ou app) faz um pedido (`request`), o garçom leva até a cozinha (servidor), e traz de volta a resposta (`response`). Os **códigos HTTP** são o sistema que toda a internet usa para comunicar o resultado desse pedido — se deu certo, se houve erro, e qual foi o motivo.
+- `.nvmrc` → define a versão do Node recomendada para o projeto, no caso `lts/hydrogen`
+- A sigla **RC** é abreviação de _run commands_
+- `npm init` → cria o `package.json`, que lista todas as dependências com suas versões
+- Para instalar o Next: `npm install next` ou `npm install next@versão`
 
-No Next.js, a API é criada dentro da pasta `pages/api`. Cada arquivo dentro dessa pasta vira automaticamente um endpoint acessível via HTTP, sem precisar configurar rotas manualmente. Por exemplo, o arquivo `pages/api/status.js` já fica disponível em `/api/status`.
+---
 
-### Como funciona
+## 🌐 Protocolos da Internet
 
-Cada arquivo exporta uma função que recebe dois parâmetros:
+| Sigla    | Nome Completo                 | Descrição                                      |
+| -------- | ----------------------------- | ---------------------------------------------- |
+| **HTTP** | HyperText Transfer Protocol   | Protocolo de transferência de hipertextos      |
+| **FTP**  | File Transfer Protocol        | Protocolo dedicado à transferência de arquivos |
+| **SMTP** | Simple Mail Transfer Protocol | Utilizado para envio e recebimento de e-mails  |
 
-- `request` → a "batida na porta": contém tudo que veio do cliente (método, dados, headers, etc.)
-- `response` → a resposta que você devolve para quem fez o pedido
+---
 
-### Exemplo
+## 🖥️ Criar uma Página / Tela
+
+As páginas são criadas como arquivos `.js` dentro da pasta `pages`. Exemplo básico:
 
 ```js
-function status(request, response) {
-  response.status(200).json({ cahve: "ola" });
+function Home() {
+  return <h1>INICIO DA FUNDACAO</h1>;
 }
 
-export default status;
+export default Home;
 ```
 
-- `response.status(200)` → informa que a requisição foi bem-sucedida
-- `.json({ ... })` → envia os dados de volta no formato JSON
-
-### Códigos HTTP mais comuns
-
-Os códigos HTTP são divididos em famílias. Quanto maior o número, mais grave o problema:
-
-| Código | Significado           | Quando ocorre                                               |
-| ------ | --------------------- | ----------------------------------------------------------- |
-| `200`  | OK                    | Requisição bem-sucedida                                     |
-| `201`  | Created               | Algo foi criado com sucesso (ex: novo usuário)              |
-| `400`  | Bad Request           | O cliente mandou dados inválidos ou incompletos             |
-| `401`  | Unauthorized          | O usuário não está autenticado (não está logado)            |
-| `404`  | Not Found             | O recurso solicitado não existe                             |
-| `500`  | Internal Server Error | Erro no servidor — o problema é no back-end, não no cliente |
+- `return` → define o conteúdo que será renderizado na tela
