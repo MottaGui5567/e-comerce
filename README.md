@@ -535,7 +535,13 @@ volumes:
 **2. Suba os containers:**
 
 ```bash
-docker-compose up -d
+docker-compose -f infra/compose.yaml up -d
+```
+
+**Para derrubar os containers:**
+
+```bash
+docker-compose -f infra/compose.yaml down
 ```
 
 **3. Verifique se os dois containers estão rodando:**
@@ -606,12 +612,14 @@ Baixe e instale em [https://www.pgadmin.org/download](https://www.pgadmin.org/do
 ### Comandos rápidos — Docker
 
 ```bash
-docker-compose up -d        # sobe todos os containers em segundo plano
-docker-compose down         # derruba todos os containers
-docker-compose restart      # reinicia todos os containers
-docker ps                   # lista os containers rodando
-docker logs nome-container  # exibe os logs de um container específico
+docker-compose -f infra/compose.yaml up -d        # sobe todos os containers em segundo plano
+docker-compose -f infra/compose.yaml down         # derruba todos os containers
+docker-compose -f infra/compose.yaml restart      # reinicia todos os containers
+docker ps                                          # lista os containers rodando
+docker logs nome-container                         # exibe os logs de um container específico
 ```
+
+> 💡 O `-f infra/compose.yaml` indica o caminho do arquivo compose. Como ele está dentro da pasta `infra/` e não na raiz do projeto, é necessário informar o caminho em todos os comandos.
 
 ---
 
@@ -669,3 +677,95 @@ export default Home;
 ```
 
 - `return` → define o conteúdo que será renderizado na tela
+
+---
+
+## 🗄️ Banco de Dados
+
+### O pacote `pg`
+
+O `pg` é o driver oficial do PostgreSQL para Node.js. Um **driver** é um pacote que faz a ponte entre sua aplicação e o banco de dados — sem ele, o JavaScript não sabe como se comunicar com o PostgreSQL.
+
+**Instalação:**
+
+```bash
+npm install pg
+```
+
+---
+
+### `infra/database.js` — a conexão com o banco
+
+Este arquivo centraliza toda a lógica de conexão com o banco de dados. Em vez de conectar diretamente em cada arquivo da aplicação, tudo passa por aqui:
+
+```js
+import { Client } from "pg";
+
+async function query(QueryObject) {
+  const client = new Client({
+    host: "localhost",
+    port: 5432,
+    user: "postgres",
+    database: "ecommerce",
+    password: "test1",
+  });
+
+  await client.connect();
+  const result = await client.query(QueryObject);
+  await client.end();
+  return result;
+}
+
+export default { query };
+```
+
+| Parte                         | O que faz                                                   |
+| ----------------------------- | ----------------------------------------------------------- |
+| `import { Client } from "pg"` | Importa o cliente do driver PostgreSQL                      |
+| `new Client({...})`           | Cria uma instância de conexão com as configurações do banco |
+| `client.connect()`            | Abre a conexão com o banco                                  |
+| `client.query(QueryObject)`   | Executa a query SQL recebida como parâmetro                 |
+| `client.end()`                | Fecha a conexão logo após a query — libera recursos         |
+| `export default { query }`    | Exporta a função para ser usada em outros arquivos          |
+
+O fluxo é sempre o mesmo: **abre a conexão → executa a query → fecha a conexão**. Isso evita que conexões fiquem abertas desnecessariamente, o que poderia sobrecarregar o banco.
+
+---
+
+### Usando o banco na API
+
+Com o `database.js` criado, qualquer endpoint pode importá-lo e fazer queries:
+
+```js
+import database from "../../../../infra/database.js";
+
+async function status(request, response) {
+  const result = await database.query("SELECT 1 + 1");
+  response.status(200).json({ result: result.rows });
+}
+
+export default status;
+```
+
+O `SELECT 1 + 1` é uma query de teste — ela não busca dados reais, apenas verifica se a conexão está funcionando. Se o banco estiver conectado, retorna:
+
+```json
+{
+  "result": [{ "?column?": 2 }]
+}
+```
+
+O `{ "?column?": 2 }` é a prova de que a query rodou no banco e voltou com resultado. Se o banco estivesse desconectado, a requisição quebraria com erro antes de chegar nessa linha.
+
+---
+
+### Atenção — configurações fixas no código
+
+No momento as configurações de conexão estão diretamente no `database.js`:
+
+```js
+host: "localhost",
+password: "test1",
+```
+
+Isso funciona para desenvolvimento, mas **não é uma boa prática** — senhas e configurações não devem ficar expostas no código. O próximo passo será mover essas informações para **variáveis de ambiente** usando um arquivo `.env`, garantindo que dados sensíveis não sejam enviados ao GitHub.
