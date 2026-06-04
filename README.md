@@ -96,7 +96,23 @@ git push                             # envia as alterações para o repositório
 
 ## 🧪 Testes Automatizados
 
-Testes automatizados garantem que o código funciona conforme o esperado e evitam que novas alterações quebrem funcionalidades já existentes.
+Testes automatizados garantem que o código funciona conforme o esperado e evitam que novas alterações quebrem funcionalidades já existentes. Existem dois tipos principais utilizados neste projeto:
+
+- **Teste unitário** → testa uma função ou lógica isolada, sem depender de serviços externos
+- **Teste de integração** → testa o fluxo completo de uma funcionalidade, como uma requisição real à API
+
+A estrutura de pastas reflete essa separação:
+
+```
+📂 test
+ ┣ 📂 integration      → testes de integração (ex: chamadas à API)
+ ┃ ┗ 📂 api/v1/status
+ ┃   ┗ 📜 get.test.js
+ ┗ 📂 unit             → testes unitários (ex: funções isoladas)
+   ┗ 📜 calculadora.test.js
+```
+
+---
 
 ### Instalação
 
@@ -128,9 +144,9 @@ Adicione o script de teste no `package.json`:
 
 ---
 
-### Criando um Teste
+### Teste Unitário
 
-Os arquivos de teste devem ter a extensão `.test.js` ou `.spec.js`. Exemplo básico:
+Testa uma função de forma isolada, sem depender de banco de dados, API ou qualquer serviço externo. Os arquivos devem ter a extensão `.test.js` ou `.spec.js`:
 
 ```js
 function soma(a, b) {
@@ -148,12 +164,59 @@ test("deve retornar a soma de dois números", () => {
 
 ---
 
+### Teste de Integração
+
+Testa o fluxo completo de uma funcionalidade — no exemplo abaixo, uma requisição real ao endpoint `/api/v1/status` verificando se ele retorna o código `200`:
+
+```js
+test("GET /api/v1/status deve retornar 200", async () => {
+  const response = await fetch("http://localhost:3000/api/v1/status");
+  expect(response.status).toBe(200);
+});
+```
+
+- `fetch()` → faz a chamada HTTP ao endpoint
+- `async/await` → necessário pois a requisição à API é assíncrona (leva um tempo para responder)
+- `response.status` → captura o código HTTP retornado pela API
+
+#### Entendendo o async/await
+
+O JavaScript por padrão não espera — ele continua executando o resto do código enquanto uma tarefa demorada acontece em segundo plano. Isso é o comportamento **assíncrono**.
+
+O problema é que às vezes você **precisa** esperar. Se o código tentasse ler `response.status` antes da resposta da API chegar, o resultado seria um erro — como tentar comer a pizza antes do entregador bater na porta.
+
+As três peças que resolvem isso:
+
+- **`fetch()`** → é o entregador. Sai para buscar a resposta da API, o que leva um tempo
+- **`await`** → pausa aquela linha e só segue para a próxima quando o `fetch` terminar e a resposta chegar
+- **`async`** → regra do JavaScript: toda função que usa `await` obrigatoriamente precisa ter `async` na frente, avisando que ela pode ter esperas dentro
+
+```js
+// ❌ sem async/await — não espera, vai dar erro
+test("teste", () => {
+  const response = fetch("http://localhost:3000/api/v1/status");
+  expect(response.status).toBe(200); // response ainda não chegou!
+});
+
+// ✅ com async/await — espera corretamente
+test("teste", async () => {
+  const response = await fetch("http://localhost:3000/api/v1/status");
+  expect(response.status).toBe(200); // response já chegou, pode ler
+});
+```
+
+> **Resumindo:** `async` avisa que a função tem esperas, e `await` é a espera em si.
+
+> **Atenção:** para rodar testes de integração, o servidor precisa estar rodando (`npm run dev`) antes de executar o teste.
+
+---
+
 ### Comandos
 
 ```bash
-npm test              # roda todos os testes do projeto
-npm run test:watch    # roda os testes em modo observador
-npx jest NomeDoArquivo   # roda apenas um arquivo de teste específico
+npm test                       # roda todos os testes do projeto
+npm run test:watch             # roda os testes em modo observador
+npx jest NomeDoArquivo         # roda apenas um arquivo de teste específico
 ```
 
 ---
@@ -270,18 +333,18 @@ O projeto segue o padrão **MVC (Model-View-Controller)**, separando responsabil
 
 ## 🔌 API
 
-No Next.js, a API é criada dentro da pasta `pages/api`. Cada arquivo dentro dessa pasta vira automaticamente um endpoint acessível via HTTP, sem precisar configurar rotas manualmente.
+Uma API funciona como um garçom em um restaurante: o cliente (navegador ou app) faz um pedido (`request`), o garçom leva até a cozinha (servidor), e traz de volta a resposta (`response`). Os **códigos HTTP** são o sistema que toda a internet usa para comunicar o resultado desse pedido — se deu certo, se houve erro, e qual foi o motivo.
+
+No Next.js, a API é criada dentro da pasta `pages/api`. Cada arquivo dentro dessa pasta vira automaticamente um endpoint acessível via HTTP, sem precisar configurar rotas manualmente. Por exemplo, o arquivo `pages/api/status.js` já fica disponível em `/api/status`.
 
 ### Como funciona
 
 Cada arquivo exporta uma função que recebe dois parâmetros:
 
-- `request` → contém os dados da requisição (método, body, headers, etc.)
-- `response` → usado para enviar a resposta ao cliente
+- `request` → a "batida na porta": contém tudo que veio do cliente (método, dados, headers, etc.)
+- `response` → a resposta que você devolve para quem fez o pedido
 
 ### Exemplo
-
-O arquivo `pages/api/status.js` cria automaticamente o endpoint `/api/status`:
 
 ```js
 function status(request, response) {
@@ -291,16 +354,18 @@ function status(request, response) {
 export default status;
 ```
 
-- `response.status(200)` → define o código HTTP da resposta (`200` significa sucesso)
-- `.json({...})` → envia os dados no formato JSON para o cliente
+- `response.status(200)` → informa que a requisição foi bem-sucedida
+- `.json({ ... })` → envia os dados de volta no formato JSON
 
 ### Códigos HTTP mais comuns
 
-| Código | Significado                                 |
-| ------ | ------------------------------------------- |
-| `200`  | OK — requisição bem-sucedida                |
-| `201`  | Created — recurso criado com sucesso        |
-| `400`  | Bad Request — dados inválidos na requisição |
-| `401`  | Unauthorized — não autenticado              |
-| `404`  | Not Found — recurso não encontrado          |
-| `500`  | Internal Server Error — erro no servidor    |
+Os códigos HTTP são divididos em famílias. Quanto maior o número, mais grave o problema:
+
+| Código | Significado           | Quando ocorre                                               |
+| ------ | --------------------- | ----------------------------------------------------------- |
+| `200`  | OK                    | Requisição bem-sucedida                                     |
+| `201`  | Created               | Algo foi criado com sucesso (ex: novo usuário)              |
+| `400`  | Bad Request           | O cliente mandou dados inválidos ou incompletos             |
+| `401`  | Unauthorized          | O usuário não está autenticado (não está logado)            |
+| `404`  | Not Found             | O recurso solicitado não existe                             |
+| `500`  | Internal Server Error | Erro no servidor — o problema é no back-end, não no cliente |
