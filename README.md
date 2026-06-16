@@ -623,6 +623,8 @@ docker logs nome-container                         # exibe os logs de um contain
 
 ---
 
+## 🔧 Comandos Git
+
 ### 📋 Listagem
 
 ```bash
@@ -642,6 +644,109 @@ git commit -m "mensagem do commit"   # cria um commit com a mensagem informada
 git commit --amend                   # edita o último commit
 git push                             # envia as alterações para o repositório remoto
 ```
+
+---
+
+### 🌿 Branches
+
+Uma **branch** é uma ramificação independente do código. Imagine o projeto como uma árvore — o tronco é a `main` (código principal em produção) e cada branch é um galho onde você desenvolve uma funcionalidade nova sem afetar o tronco.
+
+Isso permite que você trabalhe em algo novo, quebre tudo testando, e a `main` continue intacta. Só quando tudo estiver funcionando você une o galho de volta ao tronco.
+
+**Fluxo mais comum:**
+
+```
+main (produção)
+ └── feature/login        ← você cria uma branch para desenvolver
+      └── commits...      ← trabalha aqui sem afetar a main
+           └── merge      ← quando pronto, une de volta à main
+```
+
+**Comandos:**
+
+```bash
+git branch                        # lista todas as branches locais
+git branch -a                     # lista branches locais e remotas
+
+git branch nome-da-branch         # cria uma nova branch
+git checkout nome-da-branch       # muda para uma branch existente
+git checkout -b nome-da-branch    # cria e já muda para a nova branch (atalho)
+
+git merge nome-da-branch          # une a branch ao código atual
+git branch -d nome-da-branch      # deleta uma branch local (após o merge)
+
+git push origin nome-da-branch    # envia a branch para o repositório remoto
+git pull origin nome-da-branch    # puxa as atualizações da branch remota
+```
+
+| Comando           | O que faz                                          |
+| ----------------- | -------------------------------------------------- |
+| `git branch`      | Lista as branches — a atual fica marcada com `*`   |
+| `git checkout`    | Muda de branch — como trocar de "versão" do código |
+| `git checkout -b` | Cria e já entra na nova branch em um único comando |
+| `git merge`       | Une o código de outra branch na branch atual       |
+| `git branch -d`   | Deleta a branch local após ela ser mesclada        |
+
+> 💡 **Convenção de nomes:** é comum nomear branches com prefixos que indicam o tipo de trabalho:
+>
+> - `feature/nome` → nova funcionalidade
+> - `fix/nome` → correção de bug
+> - `hotfix/nome` → correção urgente em produção
+> - `chore/nome` → tarefas de manutenção (configs, dependências)
+
+---
+
+### 🚀 Enviando uma branch para o GitHub
+
+Ao criar uma branch localmente ela existe apenas na sua máquina. Para enviá-la ao GitHub:
+
+```bash
+git push origin nome-da-branch
+```
+
+O `origin` é o apelido do repositório remoto (GitHub). Esse comando cria a branch lá também, não apenas local.
+
+---
+
+### 🗑️ Excluindo uma branch
+
+**Localmente:**
+
+```bash
+git branch -d nome-da-branch    # só deleta se já foi feito merge
+git branch -D nome-da-branch    # força a exclusão mesmo sem merge
+```
+
+**No GitHub (remoto):**
+
+```bash
+git push origin --delete nome-da-branch
+```
+
+---
+
+### 🔄 Fluxo completo do ciclo de uma branch
+
+```bash
+git checkout -b feature/login           # 1. cria e entra na branch
+# ... faz as alterações e commits ...
+git push origin feature/login           # 2. envia para o GitHub
+# ... abre Pull Request no GitHub e faz merge ...
+git checkout main                       # 3. volta para a main
+git pull origin main                    # 4. atualiza a main local
+git branch -d feature/login             # 5. deleta local
+git push origin --delete feature/login  # 6. deleta no GitHub
+```
+
+| Passo              | O que faz                                    |
+| ------------------ | -------------------------------------------- |
+| `checkout -b`      | Cria e entra na branch nova                  |
+| `push origin`      | Envia a branch para o GitHub                 |
+| Pull Request       | Revisão e merge do código no GitHub          |
+| `checkout main`    | Volta para a branch principal                |
+| `pull origin main` | Baixa as atualizações do GitHub para o local |
+| `branch -d`        | Deleta a branch local após o merge           |
+| `push --delete`    | Deleta a branch no GitHub                    |
 
 ---
 
